@@ -1,5 +1,5 @@
 {
-  "name": "twilio-pulumi-provider",
+  "name": "@kaiquelupo/twilio-pulumi-provider",
   "version": "0.0.4",
   "description": "Twilio Dynamic Provider for Pulumi",
   "main": "dist/index.js",
@@ -15,7 +15,7 @@
     "dotenv": "^8.2.0",
     "folder-hash": "^3.3.3",
     "lodash": "^4.17.15",
-    "path": "^0.12.7",
+    "path": "^0.12.7", 
     "twilio": "^3.47.0"
   },
   "devDependencies": {
@@ -36,5 +36,6 @@
   },
   "homepage": "https://github.com/kaiquelupo/twilio-pulumi-provider",
   "author": "Kaique Lupo",
-  "license": "ISC"
+  "license": "MIT",
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
 }
