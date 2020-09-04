@@ -20,7 +20,7 @@ npm install twilio-pulumi-provider
 
 ### Learning from Example
 
-Now that you have all installed, you can learn how to use the package to build your infrastructure as code project through this [example implementation](https://github.com/kaiquelupo/twilio-pulumi-provider-example).
+Now that you have all installed, you can learn how to use the package to build your infrastructure as code project through this [example of implementation](https://github.com/kaiquelupo/twilio-pulumi-provider-example).
 
 
 ## More about the project
