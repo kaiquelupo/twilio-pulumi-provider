@@ -6,7 +6,6 @@ import { deployFlexPlugins, runFlexPluginsTests } from './deployFlexPlugins';
 import { getPaths, getDirectories } from "../utils";
 import { getOrCreateService } from "../serverless/checkServerless";
 
-
 const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, PULUMI_CI } = process.env;
 
 export interface WorkspaceArgs {

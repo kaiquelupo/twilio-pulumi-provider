@@ -1,20 +1,29 @@
 {
-  "name": "twilio-pulumi",
-  "version": "1.0.1",
+  "name": "twilio-pulumi-provider",
+  "version": "0.0.1",
   "description": "Dynamic Provider for Twilio ",
-  "main": "index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "peerDependencies": {
-    "path": "^0.12.7",
-    "dotenv": "^8.2.0",
-    "twilio": "^3.47.0",
-    "@twilio-labs/serverless-api": "^4.0.1",
+  "dependencies": {
     "@pulumi/pulumi": "^2.0.0",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "twilio": "^3.47.0",
+    "@twilio-labs/serverless-api": "^4.0.2",
+    "@types/lodash": "^4.14.161",
+    "dotenv": "^8.2.0",
+    "path": "^0.12.7"
   },
-  "type": "module",
+  "files": [
+    "dist/**/*"
+  ],
   "author": "Kaique Lupo",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.0.2"
+  }
 }
