@@ -15,7 +15,7 @@ After installing the CLI, you need to login using `pulumi login`. By default, th
 You can install using npm:
 
 ```
-npm install twilio-pulumi-provider
+npm install @kaiquelupo/twilio-pulumi-provider
 ```
 
 ### Learning from Example
