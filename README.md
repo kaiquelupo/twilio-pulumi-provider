@@ -15,7 +15,7 @@ After installing the CLI, you need to login using `pulumi login`. By default, th
 You can install using npm:
 
 ```
-npm install @kaiquelupo/twilio-pulumi-provider
+npm install twilio-pulumi-provider
 ```
 
 ### Learning from Example
@@ -26,11 +26,11 @@ Now that you have all installed, you can learn how to use the package to build y
 ## More about the project
 
 
-## Twilio
+### Twilio
 
 Twilio powers the future of business communications. Enabling phones, VoIP, and messaging to be embedded into web, desktop, and mobile software. Millions of developers around the world have used Twilio to unlock the magic of communications to improve any human experience. For more information, please refer to this [link](https://www.twilio.com/).
 
-## Pulumi
+### Pulumi
 
 Pulumi is an open source infrastructure as code tool for creating, deploying, and managing cloud infrastructure. Pulumi works with traditional infrastructure like VMs, networks, and databases, in addition to modern architectures, including containers, Kubernetes clusters, and serverless functions.
 
@@ -38,17 +38,17 @@ Pulumi uses real languages for infrastructure as code, which means many benefits
 
 For more information, please refer to this [link](https://www.pulumi.com/docs/intro/concepts/)
 
-### Stack
+#### Stack
 
 Every Pulumi program is deployed to a stack. A stack is an isolated, independently configurable instance of a Pulumi program. Stacks are commonly used to denote different phases of development (such as development, staging and production) or feature branches (such as feature-x-dev, jane-feature-x-dev). For more information, please refer to this [link](https://www.pulumi.com/docs/intro/concepts/stack/).
 
 In our project, we are considering that each git branch is a stack. For more information, please refer to this [link](https://www.pulumi.com/docs/intro/concepts/organizing-stacks-projects/).
 
-### Configuration and Secrets
+#### Configuration and Secrets
 
 As we are considering that each branch is a stack, we can handle the environment variables as such following this [documentation](https://www.pulumi.com/docs/intro/concepts/stack/). However, in my opinion, secrets such as API Keys are not yet handle in a good way by Pulumi. Therefore, we are sending API Keys using `.env` file in development environment and GitHub Secrets (or similar feature) in our CI/CD environment. Check the section `How to Use` for more information.
 
-### State and Backends
+#### State and Backends
 
 Pulumi stores its own copy of the current state of your infrastructure. This is often simply called state, and is stored in transactional snapshots we call checkpoints. A checkpoint is recorded by Pulumi at various points so that it can operate reliably — whether that means diffing goal state versus current state during an update, recovering from failure, or destroying resources accurately to clean up afterwards. Because state is critical to how Pulumi operates, we’ll cover a few of the state backend options on this page.
 
@@ -59,7 +59,7 @@ Pulumi supports multiple backends for storing your infrastructure state:
 
 For more information, check this [link](https://www.pulumi.com/docs/intro/concepts/state/).
 
-### Dynamic Provider
+#### Dynamic Provider
 
 There are different ways of creating providers inside Pulumi but for this project we choose to implement it as Dynamic Provider. This way is quite simple and quick to implement the Twilio Provider because you can use Node.js and integrate with the official Twilio Node.js SDK. For more information, please refer to this [link](https://www.pulumi.com/blog/dynamic-providers/). 
 

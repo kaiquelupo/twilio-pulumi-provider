@@ -1,5 +1,5 @@
 {
-  "name": "@kaiquelupo/twilio-pulumi-provider",
+  "name": "twilio-pulumi-provider",
   "version": "0.0.4",
   "description": "Twilio Dynamic Provider for Pulumi",
   "main": "dist/index.js",
@@ -30,12 +30,11 @@
     "type": "git",
     "url": "https://github.com/kaiquelupo/twilio-pulumi-provider.git"
   },
-  "keywords": [],
+  "keywords": ["twilio", "pulumi", "infra-as-code", "ci/cd", "automation"],
   "bugs": {
     "url": "https://github.com/kaiquelupo/twilio-pulumi-provider/issues"
   },
   "homepage": "https://github.com/kaiquelupo/twilio-pulumi-provider",
   "author": "Kaique Lupo",
-  "license": "MIT",
-  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
+  "license": "MIT"
 }
