@@ -4,6 +4,7 @@ import { isEqual } from "lodash";
 import { getAPI, cleanObject } from "../utils/api";
 import { transformServerlessAttributes, getPaths, getDirectories } from "../utils";
 import { TwilioServerlessApiClient } from '@twilio-labs/serverless-api';
+import { hashElement } from 'folder-hash';
 
 const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, FILES } = process.env;
 
@@ -16,6 +17,8 @@ class ServerlessProvider implements pulumi.dynamic.ResourceProvider {
     public async check(olds: any, news: any): Promise<pulumi.dynamic.CheckResult> {
 
         news.attributes.overrideExistingService = true;
+
+        news.attributes.hash = (await hashElement(news.attributes.cwd)).hash;
 
         return { inputs: news };
 
