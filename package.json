@@ -1,6 +1,6 @@
 {
   "name": "twilio-pulumi-provider",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Dynamic Provider for Twilio ",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
