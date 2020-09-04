@@ -1,7 +1,7 @@
 {
   "name": "twilio-pulumi-provider",
-  "version": "0.0.3",
-  "description": "Dynamic Provider for Twilio ",
+  "version": "0.0.4",
+  "description": "Twilio Dynamic Provider for Pulumi",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -20,12 +20,21 @@
     "path": "^0.12.7",
     "twilio": "^3.47.0"
   },
+  "devDependencies": {
+    "typescript": "^4.0.2"
+  },
   "files": [
     "dist/**/*"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kaiquelupo/twilio-pulumi-provider.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/kaiquelupo/twilio-pulumi-provider/issues"
+  },
+  "homepage": "https://github.com/kaiquelupo/twilio-pulumi-provider",
   "author": "Kaique Lupo",
-  "license": "ISC",
-  "devDependencies": {
-    "typescript": "^4.0.2"
-  }
+  "license": "ISC"
 }
