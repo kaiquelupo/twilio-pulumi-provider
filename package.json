@@ -1,6 +1,6 @@
 {
   "name": "twilio-pulumi-provider",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Twilio Dynamic Provider for Pulumi",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,8 +9,10 @@
     "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "peerDependencies": {
+    "@pulumi/pulumi": "^2.0.0"
+  },
   "dependencies": {
-    "@pulumi/pulumi": "^2.0.0",
     "@twilio-labs/serverless-api": "^4.0.2",
     "dotenv": "^8.2.0",
     "folder-hash": "^3.3.3",

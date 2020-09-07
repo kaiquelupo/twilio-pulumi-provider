@@ -36,35 +36,3 @@ export const getPaths = (cwd:string) => {
         relativePath
     }
 }
-
-export const getDirectories = ({ files, relativePath, absolutePath }:any) => {
-
-    let folders: string[] = [];
-
-    if(files){
-
-        const filesList  = files.split(" ") || [];
-
-        folders = filesList.reduce((pr: string[], cur:string) => {
-
-            const match = cur.match(new RegExp(`${relativePath.replace(/\//gi, "\\/")}\\/([a-z-A-Z]*)\\/.*`));
-
-            if(match && !pr.includes(match[1])){
-                return [...pr, match[1]];
-            }
-
-            return pr;
-
-        }, []);
-
-    } 
-
-    return folders;
-
-}
-
-export const getAllDirectories = (source:string) => {
-  return fs.readdirSync(source, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .map(dirent => dirent.name)
-}

@@ -22,7 +22,14 @@ class ResourceProvider implements pulumi.dynamic.ResourceProvider {
 
         // const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
-        const { /*resource,*/ attributes } = olds.inputs;
+        const { attributes, resource } = olds.inputs;
+        const { replaceAndNotDelete } = news.attributes;
+
+        let replaces = replaceAndNotDelete ? [ "replaceAndNotDelete" ] : [];
+
+        if(!isEqual(resource, news.resource)){
+            replaces = [ "resource" ];
+        }
 
         // if(id) {
         //     const currentResource = await getAPI(client, resource)(id).fetch();
@@ -38,7 +45,12 @@ class ResourceProvider implements pulumi.dynamic.ResourceProvider {
         //     }
         // }
 
-        return { changes: !isEqual(attributes, news.attributes) };
+        return { 
+            changes: 
+                replaces.length > 0 || 
+                !isEqual(attributes, news.attributes),
+            replaces
+        };
 
     }
 
@@ -100,7 +112,7 @@ class ResourceProvider implements pulumi.dynamic.ResourceProvider {
 
        const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
-       if(!props.inputs.attributes.sid){
+       if(!props.inputs.attributes.sid && !props.inputs.attributes.replaceAndNotDelete){
 
         await getAPI(client, props.inputs.resource)(id).remove();
 

@@ -4,7 +4,7 @@ export const getDomainName = async (serviceName: string, branch: string) => {
     const client = require("twilio")(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
     const BRANCH_NAME = branch;
-    const service: any = await getOrCreateService(serviceName);
+    const service: any = await getService(serviceName, true);
     
     const environments = await client.serverless.services(service.sid)
         .environments
@@ -25,7 +25,7 @@ export const getDomainName = async (serviceName: string, branch: string) => {
     
 }
 
-export const getOrCreateService = async (serviceName:string) => {
+export const getService = async (serviceName:string, create:boolean) => {
 
     const client = require("twilio")(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
@@ -33,7 +33,7 @@ export const getOrCreateService = async (serviceName:string) => {
 
     let service = services.find((service:any) => service.uniqueName === serviceName);
 
-    if(!service){
+    if(!service && create){
         
         const { sid } = await client.serverless.services
             .create({

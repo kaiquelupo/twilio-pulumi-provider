@@ -2,7 +2,7 @@ import * as pulumi from "@pulumi/pulumi";
 import * as twilio from "twilio"; 
 import { isEqual } from "lodash";
 import { getAPI, cleanObject } from "../utils/api";
-import { transformServerlessAttributes, getPaths, getDirectories } from "../utils";
+import { transformServerlessAttributes } from "../utils";
 import { TwilioServerlessApiClient } from '@twilio-labs/serverless-api';
 import { hashElement } from 'folder-hash';
 
@@ -18,7 +18,9 @@ class ServerlessProvider implements pulumi.dynamic.ResourceProvider {
 
         news.attributes.overrideExistingService = true;
 
-        news.attributes.hash = (await hashElement(news.attributes.cwd)).hash;
+        news.attributes.hash = (await hashElement(news.attributes.cwd, {
+            folders: { exclude: ['node_modules'] },
+        })).hash;
 
         return { inputs: news };
 
@@ -28,12 +30,8 @@ class ServerlessProvider implements pulumi.dynamic.ResourceProvider {
         
         const { attributes } = olds.inputs;
 
-        const { relativePath } = getPaths(attributes.cwd);
-
         return { 
-            changes: 
-                getDirectories({ files: process.env.FILES, relativePath }).length > 0 || 
-                !isEqual(attributes, news.attributes)  
+            changes:  !isEqual(attributes, news.attributes)  
         };
 
     }

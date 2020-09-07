@@ -1,15 +1,13 @@
 import { Resource } from './src/common';
 import { Serverless } from './src/serverless';
-import { FlexPlugins } from './src/flexPlugins';
+import { FlexPlugin } from './src/flexPlugin';
 import * as CheckServerless from './src/serverless/checkServerless';
-import * as pulumi from "@pulumi/pulumi";
 import * as twilio from "twilio"; 
 
 export {
     Resource,
     Serverless,
-    FlexPlugins,
+    FlexPlugin,
     CheckServerless,
-    pulumi,
     twilio
 }
