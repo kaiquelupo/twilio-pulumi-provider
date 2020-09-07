@@ -18,6 +18,12 @@ You can install using npm:
 npm install twilio-pulumi-provider
 ```
 
+Also, this package has Pulimi as a `peerDependency` so you can use other providers in your code. To install just run:
+
+```
+npm install @pulumi/pulumi
+```
+
 ### Learning from Example
 
 Now that you have all installed, you can learn how to use the package to build your infrastructure as code project through this [example of implementation](https://github.com/kaiquelupo/twilio-pulumi-provider-example).
