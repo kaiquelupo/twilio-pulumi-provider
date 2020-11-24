@@ -1,14 +1,10 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as twilio from "twilio"; 
 import { isEqual } from "lodash";
 import { getAPI } from "../utils/api";
-import { deployFlexPlugin, runFlexPluginsTests } from './deployFlexPlugin';
+import { deployFlexPlugin } from './deployFlexPlugin';
 import { hashElement } from 'folder-hash';
 import { getService } from '../serverless/checkServerless';
-import { getPaths } from "../utils";
-
-
-const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, PULUMI_CI } = process.env;
+import { getPaths, getTwilioClient } from "../utils";
 
 export interface WorkspaceArgs {
     attributes: pulumi.Input<any>;
@@ -29,15 +25,8 @@ class FlexPluginProvider implements pulumi.dynamic.ResourceProvider {
     public async diff(id: pulumi.ID, olds: any, news: any): Promise<pulumi.dynamic.DiffResult> {
         
         const { attributes } = olds.inputs;
-        const { runTestsOnPreview } = news.attributes;
-        const { METHOD } = process.env;
 
         const changes = !isEqual(attributes, news.attributes)
-
-        //Probably not the best way of doing that. Open to ideas :D
-        if(METHOD === "preview" && changes && runTestsOnPreview) {
-            await runFlexPluginsTests(news.attributes);
-        }
 
         return { 
             changes
@@ -47,7 +36,7 @@ class FlexPluginProvider implements pulumi.dynamic.ResourceProvider {
 
     public async create(inputs: any): Promise<pulumi.dynamic.CreateResult> {
 
-        const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+        const client:any = getTwilioClient();
 
         const { attributes } = inputs;
 
@@ -89,7 +78,7 @@ class FlexPluginProvider implements pulumi.dynamic.ResourceProvider {
 
     public async delete(id:pulumi.ID, props: any) {
 
-        const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+        const client = getTwilioClient();
 
         await getAPI(client, ["serverless", { "services" : props.serviceSid }, "environments" ])(id).remove();
 

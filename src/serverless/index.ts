@@ -1,12 +1,8 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as twilio from "twilio"; 
 import { isEqual } from "lodash";
 import { getAPI, cleanObject } from "../utils/api";
-import { transformServerlessAttributes } from "../utils";
-import { TwilioServerlessApiClient } from '@twilio-labs/serverless-api';
+import { transformServerlessAttributes, getTwilioClient } from "../utils";
 import { hashElement } from 'folder-hash';
-
-const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, FILES } = process.env;
 
 export interface WorkspaceArgs {
     attributes: pulumi.Input<any>;
@@ -42,11 +38,7 @@ class ServerlessProvider implements pulumi.dynamic.ResourceProvider {
 
         const newAttributes = transformServerlessAttributes(attributes);
 
-        const client =  
-            new TwilioServerlessApiClient({
-                username: TWILIO_ACCOUNT_SID!,
-                password: TWILIO_AUTH_TOKEN!
-            });
+        const client:any =  getTwilioClient({ isServerless: true });
 
         let { sid, ...info } = 
             cleanObject(
@@ -66,11 +58,7 @@ class ServerlessProvider implements pulumi.dynamic.ResourceProvider {
 
         const newAttributes = transformServerlessAttributes(attributes);
 
-        const client =  
-            new TwilioServerlessApiClient({
-                username: TWILIO_ACCOUNT_SID!,
-                password: TWILIO_AUTH_TOKEN!
-            });
+        const client:any =  getTwilioClient({ isServerless: true });
 
         let { sid, ...info } = 
             cleanObject(
@@ -89,7 +77,7 @@ class ServerlessProvider implements pulumi.dynamic.ResourceProvider {
 
     public async delete(id:pulumi.ID, props: any) {
 
-       const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+       const client = getTwilioClient();
 
         await getAPI(client, ["serverless", "services"])(id).remove();
 

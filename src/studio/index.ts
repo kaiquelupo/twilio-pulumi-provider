@@ -1,5 +1,5 @@
 import { getAPI } from "../utils/api";
-import * as twilio from "twilio"; 
+import { getTwilioClient } from "../utils";
 
 export const getStudioFlowDefinition = async (attributes:any, options:any) => {
 
@@ -7,10 +7,7 @@ export const getStudioFlowDefinition = async (attributes:any, options:any) => {
 
     const environmentName = environment.toUpperCase();
 
-    const definitionClient : any = twilio(
-        process.env[`TWILIO_${environmentName}_ACCOUNT_SID`], 
-        process.env[`TWILIO_${environmentName}_AUTH_TOKEN`]
-    );
+    const definitionClient : any = getTwilioClient();
 
     const studioFlow = (await getAPI(definitionClient, ["studio", {"flows" : flowSid}, "revisions"])(revision).fetch()).definition;
 

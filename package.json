@@ -1,12 +1,12 @@
 {
   "name": "twilio-pulumi-provider",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Twilio Dynamic Provider for Pulumi",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "prepare": "npm run build",
+    "prepare": "install-peers -f && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "peerDependencies": {
@@ -15,14 +15,17 @@
   "dependencies": {
     "@twilio-labs/serverless-api": "^4.0.2",
     "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "folder-hash": "^3.3.3",
     "lodash": "^4.17.15",
-    "path": "^0.12.7", 
+    "path": "^0.12.7",
     "twilio": "^3.47.0"
   },
   "devDependencies": {
+    "@types/express": "^4.17.9",
     "@types/folder-hash": "^3.3.0",
     "@types/lodash": "^4.14.161",
+    "install-peers-cli": "^2.2.0",
     "typescript": "^4.0.2"
   },
   "files": [
@@ -32,7 +35,13 @@
     "type": "git",
     "url": "https://github.com/kaiquelupo/twilio-pulumi-provider.git"
   },
-  "keywords": ["twilio", "pulumi", "infra-as-code", "ci/cd", "automation"],
+  "keywords": [
+    "twilio",
+    "pulumi",
+    "infra-as-code",
+    "ci/cd",
+    "automation"
+  ],
   "bugs": {
     "url": "https://github.com/kaiquelupo/twilio-pulumi-provider/issues"
   },

@@ -1,9 +1,7 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as twilio from "twilio"; 
 import { isEqual } from "lodash";
+import { getTwilioClient } from "../utils";
 import { getAPI, cleanObject } from "../utils/api";
-
-const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } = process.env;
 
 export interface WorkspaceArgs {
     resource: pulumi.Input<any>;
@@ -20,8 +18,6 @@ class ResourceProvider implements pulumi.dynamic.ResourceProvider {
 
     public async diff(id: pulumi.ID, olds: any, news: any): Promise<pulumi.dynamic.DiffResult> {
 
-        // const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
-
         const { attributes, resource } = olds.inputs;
         const { replaceAndNotDelete } = news.attributes;
 
@@ -30,20 +26,6 @@ class ResourceProvider implements pulumi.dynamic.ResourceProvider {
         if(!isEqual(resource, news.resource)){
             replaces = [ "resource" ];
         }
-
-        // if(id) {
-        //     const currentResource = await getAPI(client, resource)(id).fetch();
-
-        //     if(!isMatch(currentResource, attributes) && !isMatch(currentResource, news.attributes)){
-                
-        //         //TODO: show the difference
-
-        //         throw Error(
-        //             `This resource's attributes does not match with the deployed resource's attributes. `
-        //           + `Please change the resource's attributes to match the current deploy`
-        //         );
-        //     }
-        // }
 
         return { 
             changes: 
@@ -58,7 +40,7 @@ class ResourceProvider implements pulumi.dynamic.ResourceProvider {
 
         const { inputs } = props;
 
-        const client : any = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+        const client : any = getTwilioClient();
 
         const info = cleanObject(await getAPI(client, inputs.resource)(id).fetch(), false);
 
@@ -73,7 +55,7 @@ class ResourceProvider implements pulumi.dynamic.ResourceProvider {
 
         const { resource, attributes } = inputs;
 
-        const client : any = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+        const client : any = getTwilioClient();
 
         let info:any;
 
@@ -97,7 +79,7 @@ class ResourceProvider implements pulumi.dynamic.ResourceProvider {
 
     public async update(id:pulumi.ID, olds: any, news:any): Promise<pulumi.dynamic.UpdateResult> {
 
-        const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+        const client = getTwilioClient();
 
         const { resource, attributes } = news;
 
@@ -110,7 +92,7 @@ class ResourceProvider implements pulumi.dynamic.ResourceProvider {
 
     public async delete(id:pulumi.ID, props: any) {
 
-       const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+       const client = getTwilioClient();
 
        if(!props.inputs.attributes.sid && !props.inputs.attributes.replaceAndNotDelete){
 

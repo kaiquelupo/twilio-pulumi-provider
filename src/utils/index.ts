@@ -1,6 +1,8 @@
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 import * as path from 'path';
+import { TwilioServerlessApiClient } from '@twilio-labs/serverless-api';
+import * as twilio from "twilio"; 
 
 export const getEnv = (path:string) => {
  return dotenv.parse(fs.readFileSync(path, 'utf8').toString())
@@ -35,4 +37,29 @@ export const getPaths = (cwd:string) => {
         absolutePath,
         relativePath
     }
+}
+
+export const getTwilioClient = (opts?:any) => {
+
+    const { isServerless=false } = opts || {};
+
+    const { 
+        TWILIO_ACCOUNT_SID, 
+        TWILIO_AUTH_TOKEN, 
+        TWILIO_USERNAME, 
+        TWILIO_PASSWORD 
+    } = process.env;
+    
+    if(isServerless) {
+
+        return new TwilioServerlessApiClient({
+            username: (TWILIO_USERNAME || TWILIO_ACCOUNT_SID)!,
+            password: (TWILIO_PASSWORD || TWILIO_AUTH_TOKEN)!
+        })
+
+    }
+
+    return TWILIO_USERNAME ? 
+        twilio(TWILIO_USERNAME, TWILIO_PASSWORD, { accountSid: TWILIO_ACCOUNT_SID }) : 
+        twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 }
