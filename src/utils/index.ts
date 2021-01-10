@@ -5,7 +5,13 @@ import { TwilioServerlessApiClient } from '@twilio-labs/serverless-api';
 import * as twilio from "twilio"; 
 
 export const getEnv = (path:string) => {
- return dotenv.parse(fs.readFileSync(path, 'utf8').toString())
+ 
+  if (fs.existsSync(path)) {
+     return dotenv.parse(fs.readFileSync(path, 'utf8').toString())
+  }
+ 
+ return {};
+ 
 }
 
 export const transformServerlessAttributes = (attributes: any) => {
