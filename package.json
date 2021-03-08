@@ -1,6 +1,6 @@
 {
   "name": "twilio-pulumi-provider",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Twilio Dynamic Provider for Pulumi",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -33,7 +33,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/kaiquelupo/twilio-pulumi-provider.git"
+    "url": "https://github.com/twilio-infra-as-code/twilio-pulumi-provider.git"
   },
   "keywords": [
     "twilio",
@@ -43,9 +43,9 @@
     "automation"
   ],
   "bugs": {
-    "url": "https://github.com/kaiquelupo/twilio-pulumi-provider/issues"
+    "url": "https://github.com/twilio-infra-as-code/twilio-pulumi-provider/issues"
   },
-  "homepage": "https://github.com/kaiquelupo/twilio-pulumi-provider",
+  "homepage": "https://github.com/twilio-infra-as-code/twilio-pulumi-provider",
   "author": "Kaique Lupo",
   "license": "MIT"
 }
