@@ -1,15 +1,11 @@
-import { getAPI } from "../utils/api";
-import { getTwilioClient } from "../utils";
+import { readFileSync }  from 'fs';
 
 export const getStudioFlowDefinition = async (attributes:any, options:any) => {
 
-    const { flowSid, revision, environment } = attributes;
+    const { pathToFlow } = attributes;
 
-    const environmentName = environment.toUpperCase();
-
-    const definitionClient : any = getTwilioClient();
-
-    const studioFlow = (await getAPI(definitionClient, ["studio", {"flows" : flowSid}, "revisions"])(revision).fetch()).definition;
+    const fileContent = readFileSync(pathToFlow);
+    const studioFlow = JSON.parse(fileContent.toString());
 
     const transformedStudioFlow = options.transformations.reduce((prev:any, cur:any) => {
 
@@ -24,7 +20,6 @@ export const getStudioFlowDefinition = async (attributes:any, options:any) => {
 
     return transformedStudioFlow;
 }
-
 
 const runTransformation = (attributes:any, obj:any) => {
 
