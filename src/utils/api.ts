@@ -1,5 +1,4 @@
 import { pick } from "lodash";
-import * as twilio from "twilio"; 
 
 export const getAPI = (client:any, resource:any) => {
 

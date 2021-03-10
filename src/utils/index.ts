@@ -3,6 +3,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { TwilioServerlessApiClient } from '@twilio-labs/serverless-api';
 import * as twilio from "twilio"; 
+import { getAPI } from './api';
+import { isEqual } from 'lodash';
 
 export const getEnv = (path:string) => {
  
@@ -68,4 +70,39 @@ export const getTwilioClient = (opts?:any) => {
     return TWILIO_USERNAME ? 
         twilio(TWILIO_USERNAME, TWILIO_PASSWORD, { accountSid: TWILIO_ACCOUNT_SID }) : 
         twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+}
+
+export const findResourceByFriendlyName = async (client:any, resource:any, attributes:any) => {
+
+    try {
+
+        const [ existingResource ] = await getAPI(client, resource)
+            .list({ friendlyName: attributes.friendlyName });
+
+            return existingResource;
+
+    } catch(err) {
+
+        console.log(err);
+
+    }
+
+}
+
+export const isEqualFromImportResource = (currentAttributes:any, newAttributes:any) => {
+    const keysToCheck = Object.keys(newAttributes);
+
+    const currentAttributesToCheck = 
+        Object.keys(currentAttributes).reduce((pr, cur):any => {
+            if(keysToCheck.includes(cur)) {
+                return {
+                    ...pr, 
+                    [cur]: currentAttributes[cur]
+                }
+            }
+
+            return pr;
+        }, {});
+
+    return isEqual(newAttributes, currentAttributesToCheck);
 }

@@ -1,6 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
 import { isEqual } from "lodash";
-import { getTwilioClient } from "../utils";
+import { findResourceByFriendlyName, getTwilioClient, isEqualFromImportResource } from "../utils";
 import { getAPI, cleanObject } from "../utils/api";
 
 export interface WorkspaceArgs {
@@ -11,6 +11,26 @@ export interface WorkspaceArgs {
 class ResourceProvider implements pulumi.dynamic.ResourceProvider {
 
     public async check(olds: any, news: any): Promise<pulumi.dynamic.CheckResult> {
+
+        const client : any = getTwilioClient();
+        const { FIND_BEFORE_CREATE } = process.env;
+        const { attributes, resource } = news;
+
+
+        if(!olds.attributes && FIND_BEFORE_CREATE === "true" &&  attributes.friendlyName) {
+
+            const existingResource = await findResourceByFriendlyName(client, resource, attributes);
+
+            if(existingResource) {
+
+                const attributesString = 
+                    isEqualFromImportResource(existingResource, attributes) ? "the same" : "different";
+
+                pulumi.log.info(`Resource "${attributes.friendlyName}" will be imported and attributes are ${attributesString}`);
+                
+            }
+
+        }
 
         return { inputs: news };
 
@@ -54,16 +74,27 @@ class ResourceProvider implements pulumi.dynamic.ResourceProvider {
     public async create(inputs: any): Promise<pulumi.dynamic.CreateResult> {
 
         const { resource, attributes } = inputs;
+        const { FIND_BEFORE_CREATE } = process.env;
+        let existingResource = null;
 
         const client : any = getTwilioClient();
 
         let info:any;
 
-        if(attributes.sid) {
+        if(FIND_BEFORE_CREATE === "true" &&  attributes.friendlyName) {
 
-            await getAPI(client, resource)(attributes.sid).fetch();
+            existingResource = await findResourceByFriendlyName(client, resource, attributes);
+        }
 
-            info = cleanObject(await getAPI(client, resource)(attributes.sid).update(attributes), false);
+        if(attributes.sid || existingResource) {
+
+            if(existingResource) {
+                pulumi.log.info(`Resource "${attributes.friendlyName} was imported`);
+            }
+
+            const sid = attributes.sid || existingResource.sid;
+            
+            info = cleanObject(await getAPI(client, resource)(sid).update(attributes), false);
 
         } else {
 
