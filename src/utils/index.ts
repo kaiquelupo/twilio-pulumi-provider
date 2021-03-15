@@ -76,10 +76,13 @@ export const findResourceByFriendlyName = async (client:any, resource:any, attri
 
     try {
 
-        const [ existingResource ] = await getAPI(client, resource)
+        const resources = await getAPI(client, resource)
             .list({ friendlyName: attributes.friendlyName });
 
-            return existingResource;
+        const existingResource = 
+            resources.find((elem:any) => elem.friendlyName === attributes.friendlyName);
+
+        return existingResource;
 
     } catch(err) {
 
