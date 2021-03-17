@@ -51,7 +51,7 @@ Key Pulumi concepts you should be familiar with before using this provider are:
 
 - [Stack](https://www.pulumi.com/docs/intro/concepts/stack/)
 - [Configurations](https://www.pulumi.com/docs/intro/concepts/config/) and [secrets](https://www.pulumi.com/docs/intro/concepts/secrets/)
-- [State](https://www.pulumi.com/docs/intro/concepts/state/0
+- [State](https://www.pulumi.com/docs/intro/concepts/state/)
 
 #### Dynamic Provider
 
