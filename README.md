@@ -43,6 +43,12 @@ For a list of repository templates that show you how to use Pulumi for deploying
 
 [Pulumi](https://www.pulumi.com) is an open source infrastructure-as-code tool for creating, deploying, and managing cloud infrastructure. Pulumi works with traditional infrastructure like VMs, networks, and databases, in addition to modern architectures, including containers, Kubernetes clusters, and serverless functions.
 
+Key Pulumi concepts you should be familiar with before using this provider are:
+
+- [Stack](https://www.pulumi.com/docs/intro/concepts/stack/)
+- [Configurations](https://www.pulumi.com/docs/intro/concepts/config/) and [secrets](https://www.pulumi.com/docs/intro/concepts/secrets/)
+- [State](https://www.pulumi.com/docs/intro/concepts/state/0
+
 #### Dynamic Provider
 
 There are different ways of creating providers inside Pulumi but for this project, we chose to implement it as a Dynamic Provider using Node.js which integrates with the official Twilio Node.js SDK. For more information, please read [Intro to Infrastructure as Code with Twilio](https://www.twilio.com/blog/intro-to-infrastructure-as-code-with-twilio-part-1) and [Pulumi Dynamic Providers](https://www.pulumi.com/blog/dynamic-providers/).
