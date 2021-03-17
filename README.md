@@ -37,7 +37,11 @@ For a list of repository templates that show you how to use Pulumi for deploying
 
 ### Twilio
 
-[Twilio](https://www.twilio.com/) powers the future of business communications by enabling phones, VoIP, and messaging to be embedded into web, desktop, and mobile software. Millions of developers around the world have used Twilio to unlock the magic of communications to improve any human experience. ().
+[Twilio](https://www.twilio.com/) powers the future of business communications by enabling phones, VoIP, and messaging to be embedded into web, desktop, and mobile software. Millions of developers around the world have used Twilio to unlock the magic of communications to improve any human experience.
+
+#### Twilio CLI Infra Plugin
+
+This [plugin](https://github.com/twilio-infra-as-code/plugin-twilio-infra) adds the `infra` command to the Twilio CLI. It integrates Pulumi with Twilio and consists of subcommands that let you create, deploy, and manage Twilio infrastructure via code.
 
 ### Pulumi
 
