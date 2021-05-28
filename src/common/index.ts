@@ -104,7 +104,7 @@ class ResourceProvider implements pulumi.dynamic.ResourceProvider {
             
         return {
             id: info.sid,
-            outs: { sid: info.sid, inputs: cleanObject(inputs, false), info },
+            outs: { sid: info.sid, inputs: cleanObject(inputs, false), info: cleanObject(info, false) },
         };
     }
 
@@ -117,7 +117,7 @@ class ResourceProvider implements pulumi.dynamic.ResourceProvider {
         const info = cleanObject(await getAPI(client, resource)(id).update(attributes), false);
 
         return {
-            outs: { sid: info.sid, inputs: cleanObject(news, false), info }
+            outs: { sid: info.sid, inputs: cleanObject(news, false), info: cleanObject(info, false) }
         }   
      }
 

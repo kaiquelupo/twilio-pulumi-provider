@@ -34,9 +34,11 @@ export const cleanObject = (obj: any, isServerless: boolean) => {
             if(cur.match(/^_/)){
                 return pr;
             }
+            // Fix: Pulumi doesn't like objects containing items with 
+            // undefined value. Setting those to `null`
             return {
                 ...pr,
-                [cur]: obj[cur]
+                [cur]: obj[cur] === undefined ? null : obj[cur]
             }
         }, {})
 
