@@ -1,7 +1,8 @@
+import { getTwilioClient } from "../utils";
 
 export const getDomainName = async (serviceName: string, branch: string) => {
 
-    const client = require("twilio")(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+    const client : any = getTwilioClient();
 
     const BRANCH_NAME = branch;
     const service: any = await getService(serviceName, true);
@@ -27,7 +28,7 @@ export const getDomainName = async (serviceName: string, branch: string) => {
 
 export const getService = async (serviceName:string, create:boolean) => {
 
-    const client = require("twilio")(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+    const client : any = getTwilioClient();
 
     const services = await client.serverless.services.list();
 
