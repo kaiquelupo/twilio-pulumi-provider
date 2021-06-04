@@ -1,72 +1,91 @@
-import { getPaths, getEnv } from "../utils";
+import { getPaths } from "../utils";
 import { hashElement } from 'folder-hash';
+import * as childProcess from 'child_process';
 
+const setDeployFlags = (attributes:any):string[] => {
+
+    const result = [];
+
+    if(attributes.description) {
+        result.push(`--description=${attributes.description}`)
+    }
+
+    ['major', 'minor', 'patch', 'public'].forEach(flag => {
+        if(attributes[flag]){ 
+            result.push(`--${flag}`)
+        }
+    });
+
+    return result;
+
+}
+
+const setReleaseFlags = (attributes:any, packageJson:any):string[] => {
+
+    const result = [];
+
+    if(attributes.name) {
+        result.push(`--name=${attributes.name}`)
+    }
+
+    if(attributes.description) {
+        result.push(`--description=${attributes.description}`)
+    }
+
+    if(attributes.disablePlugin) {
+        result.push(`--disable-plugin=${packageJson.name}`)
+    }
+
+    return result;
+}
 
 export const deployFlexPlugin = async (attributes: any) => {
 
-    //The credentials are exposed here if any log such as error occurs. 
+    try {
 
-    const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } = process.env
+        const { absolutePath } = getPaths(attributes.cwd);
 
-    return runScriptInPlugins(
-        attributes, 
-        ({ absolutePath, envs}:any) => `
-            cd ${absolutePath} && 
-            npm install && 
-            TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID} TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN} ${envs} npm run deploy
-        `
-    );
-};
+        const env = { 
+            ...process.env,
+            ...(attributes.env || {})
+        };
 
-export const runFlexPluginsTests = async (attributes: any) => {
+        await childProcess.execFileSync('twilio', [
+            'flex:plugins:deploy',
+            `--changelog=${attributes.changelog || 'deployed by infra as code'}`,
+            ...setDeployFlags(attributes)
+        ], {
+            cwd: absolutePath,
+            stdio: 'inherit',
+            env
+        });
 
-    return runScriptInPlugins(
-        attributes,
-        ({absolutePath, envs}:any) => `
-            cd ${absolutePath} && 
-            npm install && 
-            CI=true ${envs} npm run test
-        `
-    );
-};
+        if(attributes.release) {
 
-const runScriptInPlugins = async (attributes:any, script: any) => {
+            const pluginPackageJson = 
+                require(`${absolutePath}/package.json`);
 
-    const { cwd, env } = attributes;
+            if(pluginPackageJson) {
 
-    const util = require('util');
-    const exec = util.promisify(require('child_process').exec);
+                await childProcess.execFileSync('twilio', [
+                    'flex:plugins:release', 
+                    `--enable-plugin=${pluginPackageJson.name}@latest`,
+                    ...setReleaseFlags(attributes.release, pluginPackageJson)
+                ], {
+                    cwd: absolutePath,
+                    stdio: 'inherit',
+                    env
+                });
 
-    const { absolutePath } = getPaths(cwd);
+            }
 
-    const envs = getPluginVars(absolutePath, env); 
+        }
 
-    try {                
-                
-        await exec(script({ absolutePath, envs, exec}));
-
-    } catch (err){
+    } catch (err) {
 
         throw new Error(err);
 
     }
-
-}
-
-const getPluginVars = (absolutePath:string, env: any) => {
-
-    const envFile = getEnv(`${absolutePath}/.env`);
-    const listOfVars = Object.keys(envFile);
-
-    return Object.keys(env).reduce((pr: string, cur: string) => {
-
-        if(listOfVars.includes(cur)) {
-            return `${pr} ${cur}=${env[cur]}`
-        }
-
-        return pr;
-
-    }, "");
 
 }
 

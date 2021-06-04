@@ -52,6 +52,10 @@ class FlexPluginProvider implements pulumi.dynamic.ResourceProvider {
 
         let environment = environments.find((environment:any) => environment.uniqueName === environmentName);
 
+        inputs.attributes.hash = (await hashElement(attributes.cwd, {
+            folders: { exclude: ['node_modules', 'build'] },
+        })).hash;
+
         return {
             id: environment!.sid,
             outs: { sid: environment!.sid, serviceSid, inputs }
@@ -65,6 +69,10 @@ class FlexPluginProvider implements pulumi.dynamic.ResourceProvider {
         await deployFlexPlugin(attributes);
 
         const { sid: serviceSid } = await getService("default", false);
+
+        news.attributes.hash = (await hashElement(attributes.cwd, {
+            folders: { exclude: ['node_modules', 'build'] },
+        })).hash;
             
         return {
             outs: { 

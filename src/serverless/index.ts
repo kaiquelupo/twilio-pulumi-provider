@@ -45,6 +45,10 @@ class ServerlessProvider implements pulumi.dynamic.ResourceProvider {
                 await client.deployLocalProject(newAttributes),
                 true
             );
+
+        inputs.attributes.hash = (await hashElement(attributes.cwd, {
+            folders: { exclude: ['node_modules'] },
+        })).hash;
             
         return {
             id: sid,
@@ -65,6 +69,10 @@ class ServerlessProvider implements pulumi.dynamic.ResourceProvider {
                 await client.deployLocalProject(newAttributes),
                 true
             );
+
+        news.attributes.hash = (await hashElement(attributes.cwd, {
+            folders: { exclude: ['node_modules'] },
+        })).hash;
             
         return {
             outs: { 

@@ -1,4 +1,4 @@
-import * as dotenv from 'dotenv';
+// import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 import * as path from 'path';
 import { TwilioServerlessApiClient } from '@twilio-labs/serverless-api';
@@ -6,15 +6,15 @@ import * as twilio from "twilio";
 import { getAPI } from './api';
 import { isEqual } from 'lodash';
 
-export const getEnv = (path:string) => {
+// export const getEnv = (path:string) => {
  
-  if (fs.existsSync(path)) {
-     return dotenv.parse(fs.readFileSync(path, 'utf8').toString())
-  }
+//   if (fs.existsSync(path)) {
+//      return dotenv.parse(fs.readFileSync(path, 'utf8').toString())
+//   }
  
- return {};
+//  return {};
  
-}
+// }
 
 export const transformServerlessAttributes = (attributes: any) => {
 
@@ -28,7 +28,7 @@ export const transformServerlessAttributes = (attributes: any) => {
     if(envPath) {
         newAttributes.env = {
             ...env,
-            ...getEnv(path.join(newAttributes.cwd, envPath))
+            // ...getEnv(path.join(newAttributes.cwd, envPath))
         }  
     }
 
