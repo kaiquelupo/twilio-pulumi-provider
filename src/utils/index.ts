@@ -6,6 +6,7 @@ import * as twilio from "twilio";
 import { getAPI } from './api';
 import { isEqual } from 'lodash';
 
+//TODO: check incompatibility of using dotenv
 // export const getEnv = (path:string) => {
  
 //   if (fs.existsSync(path)) {
